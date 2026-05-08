@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UrlProtectionRouteImport } from './routes/url-protection'
+import { Route as TrustEngineRouteImport } from './routes/trust-engine'
 import { Route as ThreatIntelligenceRouteImport } from './routes/threat-intelligence'
 import { Route as ScamDetectionRouteImport } from './routes/scam-detection'
 import { Route as DeepfakeDefenseRouteImport } from './routes/deepfake-defense'
@@ -19,6 +20,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const UrlProtectionRoute = UrlProtectionRouteImport.update({
   id: '/url-protection',
   path: '/url-protection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrustEngineRoute = TrustEngineRouteImport.update({
+  id: '/trust-engine',
+  path: '/trust-engine',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ThreatIntelligenceRoute = ThreatIntelligenceRouteImport.update({
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/deepfake-defense'
     | '/scam-detection'
     | '/threat-intelligence'
+    | '/trust-engine'
     | '/url-protection'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/deepfake-defense'
     | '/scam-detection'
     | '/threat-intelligence'
+    | '/trust-engine'
     | '/url-protection'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/deepfake-defense'
     | '/scam-detection'
     | '/threat-intelligence'
+    | '/trust-engine'
     | '/url-protection'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   DeepfakeDefenseRoute: typeof DeepfakeDefenseRoute
   ScamDetectionRoute: typeof ScamDetectionRoute
   ThreatIntelligenceRoute: typeof ThreatIntelligenceRoute
+  TrustEngineRoute: typeof TrustEngineRoute
   UrlProtectionRoute: typeof UrlProtectionRoute
 }
 
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/url-protection'
       fullPath: '/url-protection'
       preLoaderRoute: typeof UrlProtectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trust-engine': {
+      id: '/trust-engine'
+      path: '/trust-engine'
+      fullPath: '/trust-engine'
+      preLoaderRoute: typeof TrustEngineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/threat-intelligence': {
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   DeepfakeDefenseRoute: DeepfakeDefenseRoute,
   ScamDetectionRoute: ScamDetectionRoute,
   ThreatIntelligenceRoute: ThreatIntelligenceRoute,
+  TrustEngineRoute: TrustEngineRoute,
   UrlProtectionRoute: UrlProtectionRoute,
 }
 export const routeTree = rootRouteImport
