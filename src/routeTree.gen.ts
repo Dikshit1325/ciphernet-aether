@@ -9,8 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UrlProtectionRouteImport } from './routes/url-protection'
+import { Route as TrustEngineRouteImport } from './routes/trust-engine'
+import { Route as ThreatIntelligenceRouteImport } from './routes/threat-intelligence'
+import { Route as ScamDetectionRouteImport } from './routes/scam-detection'
+import { Route as DeepfakeDefenseRouteImport } from './routes/deepfake-defense'
+import { Route as BrowserShieldRouteImport } from './routes/browser-shield'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UrlProtectionRoute = UrlProtectionRouteImport.update({
+  id: '/url-protection',
+  path: '/url-protection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrustEngineRoute = TrustEngineRouteImport.update({
+  id: '/trust-engine',
+  path: '/trust-engine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThreatIntelligenceRoute = ThreatIntelligenceRouteImport.update({
+  id: '/threat-intelligence',
+  path: '/threat-intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScamDetectionRoute = ScamDetectionRouteImport.update({
+  id: '/scam-detection',
+  path: '/scam-detection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeepfakeDefenseRoute = DeepfakeDefenseRouteImport.update({
+  id: '/deepfake-defense',
+  path: '/deepfake-defense',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrowserShieldRoute = BrowserShieldRouteImport.update({
+  id: '/browser-shield',
+  path: '/browser-shield',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +55,116 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/browser-shield': typeof BrowserShieldRoute
+  '/deepfake-defense': typeof DeepfakeDefenseRoute
+  '/scam-detection': typeof ScamDetectionRoute
+  '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/trust-engine': typeof TrustEngineRoute
+  '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/browser-shield': typeof BrowserShieldRoute
+  '/deepfake-defense': typeof DeepfakeDefenseRoute
+  '/scam-detection': typeof ScamDetectionRoute
+  '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/trust-engine': typeof TrustEngineRoute
+  '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/browser-shield': typeof BrowserShieldRoute
+  '/deepfake-defense': typeof DeepfakeDefenseRoute
+  '/scam-detection': typeof ScamDetectionRoute
+  '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/trust-engine': typeof TrustEngineRoute
+  '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/browser-shield'
+    | '/deepfake-defense'
+    | '/scam-detection'
+    | '/threat-intelligence'
+    | '/trust-engine'
+    | '/url-protection'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/browser-shield'
+    | '/deepfake-defense'
+    | '/scam-detection'
+    | '/threat-intelligence'
+    | '/trust-engine'
+    | '/url-protection'
+  id:
+    | '__root__'
+    | '/'
+    | '/browser-shield'
+    | '/deepfake-defense'
+    | '/scam-detection'
+    | '/threat-intelligence'
+    | '/trust-engine'
+    | '/url-protection'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrowserShieldRoute: typeof BrowserShieldRoute
+  DeepfakeDefenseRoute: typeof DeepfakeDefenseRoute
+  ScamDetectionRoute: typeof ScamDetectionRoute
+  ThreatIntelligenceRoute: typeof ThreatIntelligenceRoute
+  TrustEngineRoute: typeof TrustEngineRoute
+  UrlProtectionRoute: typeof UrlProtectionRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/url-protection': {
+      id: '/url-protection'
+      path: '/url-protection'
+      fullPath: '/url-protection'
+      preLoaderRoute: typeof UrlProtectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trust-engine': {
+      id: '/trust-engine'
+      path: '/trust-engine'
+      fullPath: '/trust-engine'
+      preLoaderRoute: typeof TrustEngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/threat-intelligence': {
+      id: '/threat-intelligence'
+      path: '/threat-intelligence'
+      fullPath: '/threat-intelligence'
+      preLoaderRoute: typeof ThreatIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scam-detection': {
+      id: '/scam-detection'
+      path: '/scam-detection'
+      fullPath: '/scam-detection'
+      preLoaderRoute: typeof ScamDetectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/deepfake-defense': {
+      id: '/deepfake-defense'
+      path: '/deepfake-defense'
+      fullPath: '/deepfake-defense'
+      preLoaderRoute: typeof DeepfakeDefenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/browser-shield': {
+      id: '/browser-shield'
+      path: '/browser-shield'
+      fullPath: '/browser-shield'
+      preLoaderRoute: typeof BrowserShieldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +177,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrowserShieldRoute: BrowserShieldRoute,
+  DeepfakeDefenseRoute: DeepfakeDefenseRoute,
+  ScamDetectionRoute: ScamDetectionRoute,
+  ThreatIntelligenceRoute: ThreatIntelligenceRoute,
+  TrustEngineRoute: TrustEngineRoute,
+  UrlProtectionRoute: UrlProtectionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
