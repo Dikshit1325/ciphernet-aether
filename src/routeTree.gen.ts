@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UrlProtectionRouteImport } from './routes/url-protection'
 import { Route as ThreatIntelligenceRouteImport } from './routes/threat-intelligence'
+import { Route as ScamDetectionRouteImport } from './routes/scam-detection'
 import { Route as IndexRouteImport } from './routes/index'
 
 const UrlProtectionRoute = UrlProtectionRouteImport.update({
@@ -23,6 +24,11 @@ const ThreatIntelligenceRoute = ThreatIntelligenceRouteImport.update({
   path: '/threat-intelligence',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScamDetectionRoute = ScamDetectionRouteImport.update({
+  id: '/scam-detection',
+  path: '/scam-detection',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,43 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/threat-intelligence' | '/url-protection'
+  fullPaths:
+    | '/'
+    | '/scam-detection'
+    | '/threat-intelligence'
+    | '/url-protection'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/threat-intelligence' | '/url-protection'
-  id: '__root__' | '/' | '/threat-intelligence' | '/url-protection'
+  to: '/' | '/scam-detection' | '/threat-intelligence' | '/url-protection'
+  id:
+    | '__root__'
+    | '/'
+    | '/scam-detection'
+    | '/threat-intelligence'
+    | '/url-protection'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ScamDetectionRoute: typeof ScamDetectionRoute
   ThreatIntelligenceRoute: typeof ThreatIntelligenceRoute
   UrlProtectionRoute: typeof UrlProtectionRoute
 }
@@ -75,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThreatIntelligenceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/scam-detection': {
+      id: '/scam-detection'
+      path: '/scam-detection'
+      fullPath: '/scam-detection'
+      preLoaderRoute: typeof ScamDetectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +113,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ScamDetectionRoute: ScamDetectionRoute,
   ThreatIntelligenceRoute: ThreatIntelligenceRoute,
   UrlProtectionRoute: UrlProtectionRoute,
 }
