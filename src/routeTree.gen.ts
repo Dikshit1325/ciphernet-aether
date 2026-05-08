@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UrlProtectionRouteImport } from './routes/url-protection'
 import { Route as ThreatIntelligenceRouteImport } from './routes/threat-intelligence'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UrlProtectionRoute = UrlProtectionRouteImport.update({
+  id: '/url-protection',
+  path: '/url-protection',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ThreatIntelligenceRoute = ThreatIntelligenceRouteImport.update({
   id: '/threat-intelligence',
   path: '/threat-intelligence',
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
+  '/url-protection': typeof UrlProtectionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/threat-intelligence'
+  fullPaths: '/' | '/threat-intelligence' | '/url-protection'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/threat-intelligence'
-  id: '__root__' | '/' | '/threat-intelligence'
+  to: '/' | '/threat-intelligence' | '/url-protection'
+  id: '__root__' | '/' | '/threat-intelligence' | '/url-protection'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ThreatIntelligenceRoute: typeof ThreatIntelligenceRoute
+  UrlProtectionRoute: typeof UrlProtectionRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/url-protection': {
+      id: '/url-protection'
+      path: '/url-protection'
+      fullPath: '/url-protection'
+      preLoaderRoute: typeof UrlProtectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/threat-intelligence': {
       id: '/threat-intelligence'
       path: '/threat-intelligence'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ThreatIntelligenceRoute: ThreatIntelligenceRoute,
+  UrlProtectionRoute: UrlProtectionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
