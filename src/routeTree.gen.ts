@@ -13,6 +13,7 @@ import { Route as UrlProtectionRouteImport } from './routes/url-protection'
 import { Route as ThreatIntelligenceRouteImport } from './routes/threat-intelligence'
 import { Route as ScamDetectionRouteImport } from './routes/scam-detection'
 import { Route as DeepfakeDefenseRouteImport } from './routes/deepfake-defense'
+import { Route as BrowserShieldRouteImport } from './routes/browser-shield'
 import { Route as IndexRouteImport } from './routes/index'
 
 const UrlProtectionRoute = UrlProtectionRouteImport.update({
@@ -35,6 +36,11 @@ const DeepfakeDefenseRoute = DeepfakeDefenseRouteImport.update({
   path: '/deepfake-defense',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrowserShieldRoute = BrowserShieldRouteImport.update({
+  id: '/browser-shield',
+  path: '/browser-shield',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,6 +49,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/browser-shield': typeof BrowserShieldRoute
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/browser-shield': typeof BrowserShieldRoute
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/browser-shield': typeof BrowserShieldRoute
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
@@ -67,6 +76,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/browser-shield'
     | '/deepfake-defense'
     | '/scam-detection'
     | '/threat-intelligence'
@@ -74,6 +84,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/browser-shield'
     | '/deepfake-defense'
     | '/scam-detection'
     | '/threat-intelligence'
@@ -81,6 +92,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/browser-shield'
     | '/deepfake-defense'
     | '/scam-detection'
     | '/threat-intelligence'
@@ -89,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrowserShieldRoute: typeof BrowserShieldRoute
   DeepfakeDefenseRoute: typeof DeepfakeDefenseRoute
   ScamDetectionRoute: typeof ScamDetectionRoute
   ThreatIntelligenceRoute: typeof ThreatIntelligenceRoute
@@ -125,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DeepfakeDefenseRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/browser-shield': {
+      id: '/browser-shield'
+      path: '/browser-shield'
+      fullPath: '/browser-shield'
+      preLoaderRoute: typeof BrowserShieldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -137,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrowserShieldRoute: BrowserShieldRoute,
   DeepfakeDefenseRoute: DeepfakeDefenseRoute,
   ScamDetectionRoute: ScamDetectionRoute,
   ThreatIntelligenceRoute: ThreatIntelligenceRoute,
