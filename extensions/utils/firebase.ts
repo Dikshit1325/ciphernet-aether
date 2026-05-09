@@ -9,12 +9,12 @@
 
 // Firebase configuration (Same as React app)
 export const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
-  projectId: "YOUR_FIREBASE_PROJECT_ID",
-  storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
-  appId: "YOUR_FIREBASE_APP_ID",
+  apiKey: "AIzaSyDzbRpcAIMIVqo3HGq4sMMKqek211WFtbs",
+  authDomain: "cipherai-62911.firebaseapp.com",
+  projectId: "cipherai-62911",
+  storageBucket: "cipherai-62911.firebasestorage.app",
+  messagingSenderId: "359120184830",
+  appId: "1:359120184830:web:12ec4488477cee6af10caf",
 };
 
 /**

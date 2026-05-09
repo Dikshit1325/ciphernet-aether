@@ -6,7 +6,6 @@
 let currentUrl = "";
 let currentAnalysis = null;
 let firebaseInitialized = false;
-let db = null;
 
 // Initialize Firebase when popup loads
 document.addEventListener("DOMContentLoaded", async () => {
@@ -20,14 +19,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function initializeFirebase() {
   try {
     if (window.firebase) {
-      // Firebase already loaded from CDN
+      // Firebase loaded locally
       const firebaseConfig = {
-        apiKey: "YOUR_FIREBASE_API_KEY",
-        authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
-        projectId: "YOUR_FIREBASE_PROJECT_ID",
-        storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
-        appId: "YOUR_FIREBASE_APP_ID",
+        apiKey: "AIzaSyDzbRpcAIMIVqo3HGq4sMMKqek211WFtbs",
+        authDomain: "cipherai-62911.firebaseapp.com",
+        projectId: "cipherai-62911",
+        storageBucket: "cipherai-62911.firebasestorage.app",
+        messagingSenderId: "359120184830",
+        appId: "1:359120184830:web:12ec4488477cee6af10caf",
       };
 
       // Initialize Firebase
@@ -35,11 +34,10 @@ async function initializeFirebase() {
         firebase.initializeApp(firebaseConfig);
       }
 
-      db = firebase.firestore();
       firebaseInitialized = true;
       console.log("Firebase initialized successfully");
     } else {
-      console.warn("Firebase not loaded from CDN");
+      console.warn("Firebase not loaded locally");
     }
   } catch (error) {
     console.error("Firebase initialization failed:", error);
@@ -92,23 +90,42 @@ async function performScan() {
       scannedAt: new Date().toISOString(),
     };
 
-    // Save to Firestore
-    if (firebaseInitialized && db) {
-      try {
-        const docRef = await db.collection("browser_scans").add({
-          ...scanData,
-          scannedAt: firebase.firestore.Timestamp.now(),
-        });
-        console.log("Scan saved to Firestore:", docRef.id);
-
-        // Show success message
-        showStatusMessage("✓ Scan saved to dashboard");
-      } catch (firestoreError) {
-        console.warn("Failed to save to Firestore (offline mode):", firestoreError);
-        showStatusMessage("⚠️ Firestore unavailable (offline mode)");
+    // Save to Firestore using REST API to completely bypass Manifest V3 WebChannel bugs
+    if (firebaseInitialized) {
+      console.log("Attempting to save to Firestore via REST...");
+      
+      const projectId = "cipherai-62911";
+      const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/browser_scans`;
+      
+      // Transform data for Firestore REST API
+      const fields = {};
+      for (const [key, value] of Object.entries(scanData)) {
+        if (value === undefined || value === null || key === 'scannedAt') continue;
+        if (typeof value === 'string') fields[key] = { stringValue: value };
+        else if (typeof value === 'number') fields[key] = { doubleValue: Number(value) };
+        else if (typeof value === 'boolean') fields[key] = { booleanValue: value };
+        else if (Array.isArray(value)) fields[key] = { arrayValue: { values: value.map(v => ({ stringValue: String(v) })) } };
       }
+      // Add precise timestamp
+      fields.scannedAt = { timestampValue: new Date().toISOString() };
+
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) throw new Error(data.error.message);
+        console.log("Scan saved to Firestore REST:", data.name);
+        showStatusMessage("✓ Scan saved to dashboard");
+      })
+      .catch(error => {
+        console.error("REST save error:", error);
+        showStatusMessage("⚠️ Firestore unavailable");
+      });
     } else {
-      console.warn("Firestore not initialized");
+      console.warn("Firebase not initialized");
       showStatusMessage("⚠️ Firebase not connected");
     }
 
@@ -189,28 +206,38 @@ function displayAnalysisResults(analysis, scanData) {
 }
 
 /**
- * Report threat to Firestore
+ * Report threat to Firestore using REST API
  */
-async function reportThreat() {
+function reportThreat() {
   if (!currentAnalysis) return;
 
-  try {
-    if (firebaseInitialized && db) {
-      // Add to threat_reports collection
-      await db.collection("threat_reports").add({
-        url: currentUrl,
-        trustScore: currentAnalysis.trustScore,
-        threatLevel: currentAnalysis.threatLevel,
-        riskFactors: currentAnalysis.riskFactors,
-        reportedAt: firebase.firestore.Timestamp.now(),
-        userComment: "Reported via extension",
-      });
+  if (firebaseInitialized) {
+    const projectId = "cipherai-62911";
+    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/threat_reports`;
 
+    const fields = {
+      url: { stringValue: currentUrl },
+      trustScore: { doubleValue: Number(currentAnalysis.trustScore) },
+      threatLevel: { stringValue: currentAnalysis.threatLevel },
+      riskFactors: { arrayValue: { values: currentAnalysis.riskFactors.map(v => ({ stringValue: String(v) })) } },
+      reportedAt: { timestampValue: new Date().toISOString() },
+      userComment: { stringValue: "Reported via extension" }
+    };
+
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) throw new Error(data.error.message);
       showStatusMessage("✓ Threat reported successfully");
-    }
-  } catch (error) {
-    console.error("Report error:", error);
-    showStatusMessage("⚠️ Failed to report threat");
+    })
+    .catch(error => {
+      console.error("REST report error:", error);
+      showStatusMessage("⚠️ Failed to report threat");
+    });
   }
 }
 

@@ -8,6 +8,10 @@
     "activeTab"
   ],
 
+  "host_permissions": [
+    "https://firestore.googleapis.com/*"
+  ],
+
   "action": {
     "default_popup": "popup.html"
   },
