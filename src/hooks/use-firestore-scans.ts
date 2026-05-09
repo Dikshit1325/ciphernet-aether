@@ -35,8 +35,8 @@ export function useBrowserScans(limitResults: number = 50) {
     try {
       // Create query for recent scans, ordered by timestamp descending
       const q = query(
-        collection(db, "browser_scans"),
-        orderBy("scannedAt", "desc"),
+        collection(db, "scanLogs"),
+        orderBy("timestamp", "desc"),
         limit(limitResults)
       );
 
@@ -51,16 +51,16 @@ export function useBrowserScans(limitResults: number = 50) {
             scanData.push({
               id: doc.id,
               url: data.url,
-              hostname: data.hostname,
-              browserTitle: data.browserTitle,
-              favicon: data.favicon,
+              hostname: data.url ? new URL(data.url).hostname : "Unknown",
+              browserTitle: data.browserTitle || "Scanned Site",
+              favicon: data.favicon || "",
               trustScore: data.trustScore,
-              threatLevel: data.threatLevel,
+              threatLevel: data.threat,
               phishingRisk: data.phishingRisk,
-              manipulationScore: data.manipulationScore,
+              manipulationScore: data.manipulationRisk,
               riskFactors: data.riskFactors || [],
-              aiExplanation: data.aiExplanation,
-              scannedAt: data.scannedAt,
+              aiExplanation: data.aiExplanation || "Analyzed by CipherNet AI",
+              scannedAt: data.timestamp,
               userId: data.userId,
             });
           });

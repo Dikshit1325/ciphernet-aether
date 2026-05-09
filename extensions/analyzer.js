@@ -5,7 +5,7 @@
  */
 
 // URL Analysis function
-function analyzeURL(url) {
+export function analyzeURL(url) {
   try {
     const urlObj = new URL(url);
     let riskScore = 0;
@@ -250,7 +250,7 @@ function calculateManipulationScore(riskFactors) {
 }
 
 // Get favicon URL
-function getFaviconUrl(url) {
+export function getFaviconUrl(url) {
   try {
     const urlObj = new URL(url);
     return `https://www.google.com/s2/favicons?domain=${urlObj.hostname}&sz=64`;
@@ -260,7 +260,7 @@ function getFaviconUrl(url) {
 }
 
 // Get hostname
-function getHostname(url) {
+export function getHostname(url) {
   try {
     return new URL(url).hostname;
   } catch {

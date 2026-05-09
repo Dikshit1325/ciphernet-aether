@@ -7,6 +7,8 @@
     "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
+    "build:ext": "vite build -c vite.ext.config.ts",
+    "postbuild:ext": "node -e \"const fs=require('fs'); fs.copyFileSync('extensions/manifest.json', 'dist-ext/manifest.json'); fs.copyFileSync('extensions/background.js', 'dist-ext/background.js');\"",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write ."

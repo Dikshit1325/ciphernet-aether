@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CipherNet Shield</title>
+
+  <script type="module" crossorigin src="/popup.js"></script>
+  <link rel="stylesheet" crossorigin href="/popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-logo">
+        <span class="logo-icon">🛡️</span>
+        <span class="logo-text">CipherNet Shield</span>
+      </div>
+      <div class="header-status">
+        <span class="status-dot"></span>
+        <span class="status-text">Active · v4.0</span>
+      </div>
+    </div>
+
+    <!-- Analysis Result Container -->
+    <div id="resultContainer" class="result-container hidden">
+      <!-- Threat Indicator -->
+      <div id="threatIndicator" class="threat-indicator threat-safe">
+        <div class="threat-icon">✓</div>
+        <div id="threatLabel" class="threat-label">Analyzing...</div>
+      </div>
+
+      <!-- URL Display -->
+      <div class="url-display">
+        <span id="faviconImg" class="favicon"></span>
+        <span id="urlText" class="url-text"></span>
+      </div>
+
+      <!-- Trust Score Gauge -->
+      <div class="trust-gauge">
+        <svg viewBox="0 0 100 100" class="gauge-svg">
+          <circle cx="50" cy="50" r="42" class="gauge-bg"></circle>
+          <circle id="gaugeCircle" cx="50" cy="50" r="42" class="gauge-fill"></circle>
+        </svg>
+        <div class="gauge-text">
+          <span id="trustScore" class="score-number">-</span>
+          <span class="score-label">Trust</span>
+        </div>
+      </div>
+
+      <!-- Detailed Analysis -->
+      <div id="analysisDetails" class="analysis-details">
+        <div class="detail-row">
+          <span class="detail-label">Phishing Risk:</span>
+          <span id="phishingRisk" class="detail-value">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Threat Level:</span>
+          <span id="threatLevel" class="detail-value">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Manipulation:</span>
+          <span id="manipulationScore" class="detail-value">-</span>
+        </div>
+      </div>
+
+      <!-- Risk Factors -->
+      <div id="riskFactorsContainer" class="risk-factors-container">
+        <div class="section-title">Risk Factors</div>
+        <ul id="riskFactors" class="risk-factors-list"></ul>
+      </div>
+
+      <!-- AI Explanation -->
+      <div class="ai-explanation">
+        <div class="section-title">AI Analysis</div>
+        <p id="aiExplanation" class="explanation-text"></p>
+      </div>
+
+      <!-- Status Message -->
+      <div id="statusMessage" class="status-message"></div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button id="rescanBtn" class="btn btn-secondary">Re-scan</button>
+        <button id="reportBtn" class="btn btn-warning">Report</button>
+      </div>
+    </div>
+
+    <!-- Initial State (Before Scan) -->
+    <div id="initialState" class="initial-state">
+      <div class="initial-content">
+        <div class="scan-icon">📡</div>
+        <h3>Website Analysis</h3>
+        <p>Analyze the current website for threats and security risks</p>
+      </div>
+      <button id="scanBtn" class="btn btn-primary">Scan Current Site</button>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading-state hidden">
+      <div class="spinner"></div>
+      <p>Analyzing website...</p>
+      <p class="loading-subtext">Running security checks</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="error-state hidden">
+      <div class="error-icon">⚠️</div>
+      <p id="errorMessage" class="error-message"></p>
+      <button id="retryBtn" class="btn btn-secondary">Try Again</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+</body>
+
+</html>
