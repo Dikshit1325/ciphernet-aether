@@ -33,10 +33,10 @@ export function useBrowserScans(limitResults: number = 50) {
     setError(null);
 
     try {
-      // Create query for recent scans, ordered by timestamp descending
+      // Create query for recent scans, ordered by scannedAt descending
       const q = query(
-        collection(db, "scanLogs"),
-        orderBy("timestamp", "desc"),
+        collection(db, "browser_scans"),
+        orderBy("scannedAt", "desc"),
         limit(limitResults)
       );
 
@@ -55,13 +55,13 @@ export function useBrowserScans(limitResults: number = 50) {
               browserTitle: data.browserTitle || "Scanned Site",
               favicon: data.favicon || "",
               trustScore: data.trustScore,
-              threatLevel: data.threat,
-              phishingRisk: data.phishingRisk,
-              manipulationScore: data.manipulationRisk,
+              threatLevel: data.threatLevel || data.threat || "SAFE",
+              phishingRisk: data.phishingRisk ?? 0,
+              manipulationScore: data.manipulationScore ?? data.manipulationRisk ?? 0,
               riskFactors: data.riskFactors || [],
               aiExplanation: data.aiExplanation || "Analyzed by CipherNet AI",
-              scannedAt: data.timestamp,
-              userId: data.userId,
+              scannedAt: data.scannedAt || data.timestamp || null,
+              userId: data.userId || null,
             });
           });
 
