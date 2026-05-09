@@ -1,11 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.routes.media_routes import router as media_router
 from app.routes.url_routes import router as url_router
-from app.routes.sms_routes import router as sms_router
-
 app = FastAPI()
-
+app.include_router(url_router)
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -14,11 +12,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # Routes
-app.include_router(url_router)
-app.include_router(sms_router)
-
+app.include_router(media_router)
 @app.get("/")
-def root():
-    return {"message": "CipherNet AI Backend Running"}
+def home():
+    return {
+        "message": "CipherNet AI Backend Running"
+    }
+
+
+
+

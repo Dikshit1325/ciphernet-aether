@@ -1,0 +1,592 @@
+/**
+ * CipherNet Shield Extension Popup CSS
+ * Cyberpunk futuristic UI with neon colors and glass morphism
+ */
+
+:root {
+  --color-cyber-cyan: #00f3ff;
+  --color-cyber-purple: #b000ff;
+  --color-cyber-red: #ff0066;
+  --color-cyber-green: #39ff14;
+  --color-dark-bg: #0a0e27;
+  --color-dark-card: #0f1436;
+  --color-border: #1a2156;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9399cc;
+  --glow-cyan: 0 0 20px rgba(0, 243, 255, 0.3);
+  --glow-purple: 0 0 20px rgba(176, 0, 255, 0.3);
+  --glow-red: 0 0 20px rgba(255, 0, 102, 0.3);
+  --glow-green: 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 420px;
+  background: linear-gradient(135deg, #0a0e27 0%, #0f1436 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.header {
+  padding: 12px 16px;
+  background: rgba(15, 20, 54, 0.5);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.logo-icon {
+  font-size: 18px;
+  filter: drop-shadow(var(--glow-cyan));
+}
+
+.logo-text {
+  background: linear-gradient(90deg, var(--color-cyber-cyan), var(--color-cyber-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-cyber-green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: var(--glow-green);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ============================================
+   RESULT CONTAINER
+   ============================================ */
+
+.result-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.result-container.hidden {
+  display: none;
+}
+
+/* ============================================
+   THREAT INDICATOR
+   ============================================ */
+
+.threat-indicator {
+  width: 100%;
+  height: 80px;
+  border-radius: 12px;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  backdrop-filter: blur(10px);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.threat-indicator.threat-safe {
+  background: rgba(57, 255, 20, 0.05);
+  border-color: var(--color-cyber-green);
+  color: var(--color-cyber-green);
+  box-shadow: var(--glow-green);
+}
+
+.threat-indicator.threat-low {
+  background: rgba(100, 150, 255, 0.05);
+  border-color: var(--color-cyber-cyan);
+  color: var(--color-cyber-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.threat-indicator.threat-medium {
+  background: rgba(176, 0, 255, 0.05);
+  border-color: var(--color-cyber-purple);
+  color: var(--color-cyber-purple);
+  box-shadow: var(--glow-purple);
+}
+
+.threat-indicator.threat-high {
+  background: rgba(255, 0, 102, 0.05);
+  border-color: var(--color-cyber-red);
+  color: var(--color-cyber-red);
+  box-shadow: var(--glow-red);
+}
+
+.threat-icon {
+  font-size: 28px;
+}
+
+.threat-label {
+  flex: 1;
+  text-align: left;
+}
+
+/* ============================================
+   URL DISPLAY
+   ============================================ */
+
+.url-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(15, 20, 54, 0.3);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.favicon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: rgba(147, 153, 204, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.url-text {
+  color: var(--color-text-secondary);
+  word-break: break-all;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   TRUST GAUGE
+   ============================================ */
+
+.trust-gauge {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.gauge-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.gauge-bg {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 8;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke: url(#gaugeGradient);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+  filter: drop-shadow(var(--glow-cyan));
+}
+
+.gauge-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight: 600;
+}
+
+.score-number {
+  display: block;
+  font-size: 32px;
+  font-family: "Courier New", monospace;
+  background: linear-gradient(90deg, var(--color-cyber-cyan), var(--color-cyber-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.score-label {
+  display: block;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   ANALYSIS DETAILS
+   ============================================ */
+
+.analysis-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(15, 20, 54, 0.3);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-label {
+  color: var(--color-text-secondary);
+}
+
+.detail-value {
+  font-weight: 600;
+  font-family: "Courier New", monospace;
+  color: var(--color-cyber-cyan);
+}
+
+.detail-value.high {
+  color: var(--color-cyber-red);
+}
+
+.detail-value.medium {
+  color: var(--color-cyber-purple);
+}
+
+.detail-value.low {
+  color: var(--color-cyber-green);
+}
+
+/* ============================================
+   RISK FACTORS
+   ============================================ */
+
+.risk-factors-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-secondary);
+}
+
+.risk-factors-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.risk-factors-list li {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  padding: 4px 8px;
+  background: rgba(15, 20, 54, 0.3);
+  border-left: 2px solid var(--color-cyber-red);
+  border-radius: 2px;
+}
+
+/* ============================================
+   AI EXPLANATION
+   ============================================ */
+
+.ai-explanation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: rgba(0, 243, 255, 0.03);
+  border: 1px solid rgba(0, 243, 255, 0.2);
+  border-radius: 8px;
+}
+
+.explanation-text {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+   STATUS MESSAGE
+   ============================================ */
+
+.status-message {
+  padding: 8px 12px;
+  background: rgba(57, 255, 20, 0.05);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--color-cyber-green);
+  text-align: center;
+  display: none;
+}
+
+.status-message.visible {
+  display: block;
+}
+
+/* ============================================
+   ACTION BUTTONS
+   ============================================ */
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--color-cyber-cyan), var(--color-cyber-purple));
+  color: var(--color-dark-bg);
+  border: none;
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.5),
+    0 0 30px rgba(176, 0, 255, 0.5);
+}
+
+.btn-secondary {
+  background: rgba(15, 20, 54, 0.5);
+  color: var(--color-cyber-cyan);
+  border: 1px solid var(--color-cyber-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 243, 255, 0.1);
+}
+
+.btn-warning {
+  background: rgba(255, 0, 102, 0.1);
+  color: var(--color-cyber-red);
+  border: 1px solid var(--color-cyber-red);
+  box-shadow: var(--glow-red);
+}
+
+.btn-warning:hover {
+  background: rgba(255, 0, 102, 0.2);
+}
+
+/* ============================================
+   INITIAL STATE
+   ============================================ */
+
+.initial-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  gap: 16px;
+}
+
+.initial-state.hidden {
+  display: none;
+}
+
+.initial-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.scan-icon {
+  font-size: 48px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.initial-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.initial-content p {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+
+.loading-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  gap: 12px;
+}
+
+.loading-state.hidden {
+  display: none;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-cyber-cyan);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: var(--glow-cyan);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state p {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.loading-subtext {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+   ERROR STATE
+   ============================================ */
+
+.error-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  gap: 12px;
+  text-align: center;
+}
+
+.error-state.hidden {
+  display: none;
+}
+
+.error-icon {
+  font-size: 48px;
+}
+
+.error-message {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+.result-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.result-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.result-container::-webkit-scrollbar-thumb {
+  background: var(--color-cyber-cyan);
+  border-radius: 2px;
+}
+
+.result-container::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cyber-purple);
+}
