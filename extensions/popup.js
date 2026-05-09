@@ -3,17 +3,22 @@
  * Handles UI state management and Firestore integration
  */
 
-import { db } from '../src/firebase/config.ts';
-import { collection, addDoc } from 'firebase/firestore';
+import { initializeExtensionFirebase, saveBrowserScanToFirestore } from './utils/firebase.ts';
 import { analyzeURL, getFaviconUrl, getHostname } from './analyzer.js';
 
 let currentUrl = "";
 let currentAnalysis = null;
-let firebaseInitialized = true; // Always true now as it's initialized in config.ts
+let firebaseInitialized = false;
 
 // Initialize Firebase when popup loads
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Firebase initialized successfully via NPM SDK");
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    await initializeExtensionFirebase();
+    firebaseInitialized = true;
+    console.log("Firebase initialized successfully for extension");
+  } catch (err) {
+    console.error("Firebase init error:", err);
+  }
   setupEventListeners();
 });
 
@@ -63,19 +68,12 @@ async function performScan() {
       scannedAt: new Date().toISOString(),
     };
 
-    // Save to Firestore using NPM SDK
+    // Save to Firestore via extension helper
     if (firebaseInitialized) {
       console.log("Attempting to save to Firestore...");
       try {
-        const docRef = await addDoc(collection(db, "scanLogs"), {
-          url: currentUrl,
-          trustScore: analysis.trustScore,
-          threat: analysis.threatLevel,
-          phishingRisk: analysis.phishingRisk,
-          manipulationRisk: analysis.manipulationScore,
-          timestamp: Date.now()
-        });
-        console.log("Data saved successfully to Firestore with ID:", docRef.id);
+        const docId = await saveBrowserScanToFirestore(scanData);
+        console.log("Data saved successfully to Firestore with ID:", docId);
         showStatusMessage("✓ Scan saved to dashboard");
       } catch (error) {
         console.error("Firestore error:", error);
@@ -168,23 +166,32 @@ function displayAnalysisResults(analysis, scanData) {
 function reportThreat() {
   if (!currentAnalysis) return;
 
-  if (firebaseInitialized) {
-    try {
-      addDoc(collection(db, "threat_reports"), {
-        url: currentUrl,
-        trustScore: Number(currentAnalysis.trustScore),
-        threatLevel: currentAnalysis.threatLevel,
-        riskFactors: currentAnalysis.riskFactors,
-        reportedAt: Date.now(),
-        userComment: "Reported via extension"
-      }).then(() => {
-        showStatusMessage("✓ Threat reported successfully");
-      });
-    } catch (error) {
-      console.error("Report error:", error);
-      showStatusMessage("⚠️ Failed to report threat");
-    }
+  if (!firebaseInitialized) {
+    showStatusMessage("⚠️ Firebase not connected");
+    return;
   }
+
+  const reportData = {
+    url: currentUrl,
+    hostname: getHostname(currentUrl),
+    browserTitle: document.title || "",
+    trustScore: Number(currentAnalysis.trustScore),
+    threatLevel: currentAnalysis.threatLevel,
+    riskFactors: currentAnalysis.riskFactors,
+    reportedAt: Date.now(),
+    userComment: "Reported via extension",
+    reported: true
+  };
+
+  saveBrowserScanToFirestore(reportData)
+    .then((id) => {
+      console.log("Report saved with ID:", id);
+      showStatusMessage("✓ Threat reported successfully");
+    })
+    .catch((err) => {
+      console.error("Report error:", err);
+      showStatusMessage("⚠️ Failed to report threat");
+    });
 }
 
 /**
