@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UrlProtectionRouteImport } from './routes/url-protection'
 import { Route as TrustEngineRouteImport } from './routes/trust-engine'
 import { Route as ThreatIntelligenceRouteImport } from './routes/threat-intelligence'
+import { Route as SignUpRouteImport } from './routes/sign-up'
+import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ScamDetectionRouteImport } from './routes/scam-detection'
 import { Route as DeepfakeDefenseRouteImport } from './routes/deepfake-defense'
 import { Route as BrowserShieldRouteImport } from './routes/browser-shield'
@@ -30,6 +32,16 @@ const TrustEngineRoute = TrustEngineRouteImport.update({
 const ThreatIntelligenceRoute = ThreatIntelligenceRouteImport.update({
   id: '/threat-intelligence',
   path: '/threat-intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScamDetectionRoute = ScamDetectionRouteImport.update({
@@ -58,6 +70,8 @@ export interface FileRoutesByFullPath {
   '/browser-shield': typeof BrowserShieldRoute
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
@@ -67,6 +81,8 @@ export interface FileRoutesByTo {
   '/browser-shield': typeof BrowserShieldRoute
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
@@ -77,6 +93,8 @@ export interface FileRoutesById {
   '/browser-shield': typeof BrowserShieldRoute
   '/deepfake-defense': typeof DeepfakeDefenseRoute
   '/scam-detection': typeof ScamDetectionRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
@@ -88,6 +106,8 @@ export interface FileRouteTypes {
     | '/browser-shield'
     | '/deepfake-defense'
     | '/scam-detection'
+    | '/sign-in'
+    | '/sign-up'
     | '/threat-intelligence'
     | '/trust-engine'
     | '/url-protection'
@@ -97,6 +117,8 @@ export interface FileRouteTypes {
     | '/browser-shield'
     | '/deepfake-defense'
     | '/scam-detection'
+    | '/sign-in'
+    | '/sign-up'
     | '/threat-intelligence'
     | '/trust-engine'
     | '/url-protection'
@@ -106,6 +128,8 @@ export interface FileRouteTypes {
     | '/browser-shield'
     | '/deepfake-defense'
     | '/scam-detection'
+    | '/sign-in'
+    | '/sign-up'
     | '/threat-intelligence'
     | '/trust-engine'
     | '/url-protection'
@@ -116,6 +140,8 @@ export interface RootRouteChildren {
   BrowserShieldRoute: typeof BrowserShieldRoute
   DeepfakeDefenseRoute: typeof DeepfakeDefenseRoute
   ScamDetectionRoute: typeof ScamDetectionRoute
+  SignInRoute: typeof SignInRoute
+  SignUpRoute: typeof SignUpRoute
   ThreatIntelligenceRoute: typeof ThreatIntelligenceRoute
   TrustEngineRoute: typeof TrustEngineRoute
   UrlProtectionRoute: typeof UrlProtectionRoute
@@ -142,6 +168,20 @@ declare module '@tanstack/react-router' {
       path: '/threat-intelligence'
       fullPath: '/threat-intelligence'
       preLoaderRoute: typeof ThreatIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/scam-detection': {
@@ -180,6 +220,8 @@ const rootRouteChildren: RootRouteChildren = {
   BrowserShieldRoute: BrowserShieldRoute,
   DeepfakeDefenseRoute: DeepfakeDefenseRoute,
   ScamDetectionRoute: ScamDetectionRoute,
+  SignInRoute: SignInRoute,
+  SignUpRoute: SignUpRoute,
   ThreatIntelligenceRoute: ThreatIntelligenceRoute,
   TrustEngineRoute: TrustEngineRoute,
   UrlProtectionRoute: UrlProtectionRoute,

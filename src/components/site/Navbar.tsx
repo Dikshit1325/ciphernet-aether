@@ -1,6 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { Shield, Search, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+import { auth } from "@/firebase";
+import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
 
 const navLinks = [
   { to: "/threat-intelligence", label: "Threat Intelligence" },
@@ -13,6 +17,28 @@ const navLinks = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<any | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+    });
+    return () => unsub();
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await firebaseSignOut(auth);
+      toast.success("Signed out");
+      setMenuOpen(false);
+      // optional: redirect to home
+      window.location.href = "/";
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.message || "Sign out failed");
+    }
+  };
   return (
     <header className="sticky top-0 z-50 w-full">
       <div className="absolute inset-0 backdrop-blur-xl bg-background/60 border-b border-border/40" />
@@ -47,7 +73,33 @@ export function Navbar() {
           <button className="p-2 rounded-md hover:bg-secondary/60 text-muted-foreground hover:text-foreground transition" aria-label="Search">
             <Search className="h-4 w-4" />
           </button>
-          <Link to="/" className="text-[13px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">Sign In</Link>
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setMenuOpen((v) => !v)}
+                className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-secondary/60 transition"
+                aria-label="Account"
+                type="button"
+              >
+                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-cyber-cyan to-cyber-purple grid place-items-center text-sm font-semibold text-background">
+                  {(user.displayName && user.displayName[0]) || user.email?.[0] || "U"}
+                </div>
+                <span className="text-sm font-medium text-muted-foreground">{user.displayName || user.email}</span>
+              </button>
+
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-44 rounded-lg border border-border/40 bg-background p-2 shadow-lg">
+                  <Link to="/threat-intelligence" className="block px-3 py-2 text-sm text-muted-foreground hover:bg-background/50 rounded">Dashboard</Link>
+                  <button onClick={handleSignOut} className="w-full text-left px-3 py-2 text-sm text-muted-foreground hover:bg-background/50 rounded">Sign Out</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link to="/sign-in" className="text-[13px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">Sign In</Link>
+              <Link to="/sign-up" className="text-[13px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">Sign Up</Link>
+            </>
+          )}
           <Link to="/threat-intelligence" className="text-[13px] font-medium px-3 py-2 rounded-md border border-border/60 hover:border-cyber-cyan/50 hover:text-cyber-cyan transition">
             Dashboard
           </Link>
@@ -71,6 +123,22 @@ export function Navbar() {
               {l.label}
             </Link>
           ))}
+          {user ? (
+            <>
+              <div className="py-2 text-sm text-muted-foreground">Signed in as</div>
+              <div className="py-2 text-sm font-medium">{user.displayName || user.email}</div>
+              <button type="button" onClick={handleSignOut} className="py-2 text-sm text-muted-foreground hover:text-foreground text-left">Sign Out</button>
+            </>
+          ) : (
+            <>
+              <Link to="/sign-in" onClick={() => setOpen(false)} className="py-2 text-sm text-muted-foreground hover:text-foreground">
+                Sign In
+              </Link>
+              <Link to="/sign-up" onClick={() => setOpen(false)} className="py-2 text-sm text-muted-foreground hover:text-foreground">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       )}
     </header>
