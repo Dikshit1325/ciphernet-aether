@@ -25,7 +25,7 @@ export function Footer() {
         </div>
 
         {[
-          { title: "Platform", links: [["Threat Intelligence","/threat-intelligence"],["URL Protection","/url-protection"],["Scam Detection","/scam-detection"],["Deepfake Defense","/deepfake-defense"]] },
+          { title: "Platform", links: [["Zero Trust Center","/zero-trust"],["URL Protection","/url-protection"],["Scam Detection","/scam-detection"],["Deepfake Defense","/deepfake-defense"]] },
           { title: "Solutions", links: [["Browser Shield","/browser-shield"],["AI Trust Engine","/trust-engine"],["Enterprise","/"],["API Access","/"]] },
           { title: "Company", links: [["About","/"],["Security","/"],["Compliance","/"],["Contact","/"]] },
         ].map((c) => (

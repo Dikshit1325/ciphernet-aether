@@ -9,9 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ZeroTrustRouteImport } from './routes/zero-trust'
 import { Route as UrlProtectionRouteImport } from './routes/url-protection'
 import { Route as TrustEngineRouteImport } from './routes/trust-engine'
-import { Route as ThreatIntelligenceRouteImport } from './routes/threat-intelligence'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ScamDetectionRouteImport } from './routes/scam-detection'
@@ -19,6 +19,11 @@ import { Route as DeepfakeDefenseRouteImport } from './routes/deepfake-defense'
 import { Route as BrowserShieldRouteImport } from './routes/browser-shield'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ZeroTrustRoute = ZeroTrustRouteImport.update({
+  id: '/zero-trust',
+  path: '/zero-trust',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UrlProtectionRoute = UrlProtectionRouteImport.update({
   id: '/url-protection',
   path: '/url-protection',
@@ -27,11 +32,6 @@ const UrlProtectionRoute = UrlProtectionRouteImport.update({
 const TrustEngineRoute = TrustEngineRouteImport.update({
   id: '/trust-engine',
   path: '/trust-engine',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ThreatIntelligenceRoute = ThreatIntelligenceRouteImport.update({
-  id: '/threat-intelligence',
-  path: '/threat-intelligence',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignUpRoute = SignUpRouteImport.update({
@@ -72,9 +72,9 @@ export interface FileRoutesByFullPath {
   '/scam-detection': typeof ScamDetectionRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
-  '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
+  '/zero-trust': typeof ZeroTrustRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,9 +83,9 @@ export interface FileRoutesByTo {
   '/scam-detection': typeof ScamDetectionRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
-  '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
+  '/zero-trust': typeof ZeroTrustRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,9 +95,9 @@ export interface FileRoutesById {
   '/scam-detection': typeof ScamDetectionRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
-  '/threat-intelligence': typeof ThreatIntelligenceRoute
   '/trust-engine': typeof TrustEngineRoute
   '/url-protection': typeof UrlProtectionRoute
+  '/zero-trust': typeof ZeroTrustRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -108,9 +108,9 @@ export interface FileRouteTypes {
     | '/scam-detection'
     | '/sign-in'
     | '/sign-up'
-    | '/threat-intelligence'
     | '/trust-engine'
     | '/url-protection'
+    | '/zero-trust'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -119,9 +119,9 @@ export interface FileRouteTypes {
     | '/scam-detection'
     | '/sign-in'
     | '/sign-up'
-    | '/threat-intelligence'
     | '/trust-engine'
     | '/url-protection'
+    | '/zero-trust'
   id:
     | '__root__'
     | '/'
@@ -130,9 +130,9 @@ export interface FileRouteTypes {
     | '/scam-detection'
     | '/sign-in'
     | '/sign-up'
-    | '/threat-intelligence'
     | '/trust-engine'
     | '/url-protection'
+    | '/zero-trust'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -142,13 +142,20 @@ export interface RootRouteChildren {
   ScamDetectionRoute: typeof ScamDetectionRoute
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
-  ThreatIntelligenceRoute: typeof ThreatIntelligenceRoute
   TrustEngineRoute: typeof TrustEngineRoute
   UrlProtectionRoute: typeof UrlProtectionRoute
+  ZeroTrustRoute: typeof ZeroTrustRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/zero-trust': {
+      id: '/zero-trust'
+      path: '/zero-trust'
+      fullPath: '/zero-trust'
+      preLoaderRoute: typeof ZeroTrustRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/url-protection': {
       id: '/url-protection'
       path: '/url-protection'
@@ -161,13 +168,6 @@ declare module '@tanstack/react-router' {
       path: '/trust-engine'
       fullPath: '/trust-engine'
       preLoaderRoute: typeof TrustEngineRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/threat-intelligence': {
-      id: '/threat-intelligence'
-      path: '/threat-intelligence'
-      fullPath: '/threat-intelligence'
-      preLoaderRoute: typeof ThreatIntelligenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-up': {
@@ -222,9 +222,9 @@ const rootRouteChildren: RootRouteChildren = {
   ScamDetectionRoute: ScamDetectionRoute,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
-  ThreatIntelligenceRoute: ThreatIntelligenceRoute,
   TrustEngineRoute: TrustEngineRoute,
   UrlProtectionRoute: UrlProtectionRoute,
+  ZeroTrustRoute: ZeroTrustRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -2,8 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.media_routes import router as media_router
 from app.routes.url_routes import router as url_router
+from app.routes.zero_trust_routes import router as zero_trust_router
+
 app = FastAPI()
 app.include_router(url_router)
+app.include_router(zero_trust_router)
 # CORS
 app.add_middleware(
     CORSMiddleware,

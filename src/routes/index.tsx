@@ -68,7 +68,7 @@ function Landing() {
               <Link to="/url-protection" className="group inline-flex items-center gap-2 px-5 py-3 rounded-md bg-gradient-to-r from-cyber-cyan to-cyber-blue text-background font-semibold shadow-[0_0_30px_oklch(0.78_0.18_220_/_0.5)] hover:shadow-[0_0_45px_oklch(0.78_0.18_220_/_0.8)] transition-all">
                 Start Protection <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition" />
               </Link>
-              <Link to="/threat-intelligence" className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-border/60 hover:border-cyber-cyan/60 hover:text-cyber-cyan transition font-medium">
+              <Link to="/zero-trust" className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-border/60 hover:border-cyber-cyan/60 hover:text-cyber-cyan transition font-medium">
                 <Eye className="h-4 w-4" /> Watch Live Demo
               </Link>
             </motion.div>
@@ -244,7 +244,7 @@ function Landing() {
             <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight">Deploy your <span className="text-gradient-cyber">cyber defense OS</span> today</h2>
             <p className="mt-4 text-muted-foreground">Join the security teams using CipherNet AI to detect, explain, and stop the next generation of digital fraud.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/threat-intelligence" className="px-5 py-3 rounded-md bg-gradient-to-r from-cyber-cyan to-cyber-blue text-background font-semibold shadow-[0_0_30px_oklch(0.78_0.18_220_/_0.45)]">
+              <Link to="/zero-trust" className="px-5 py-3 rounded-md bg-gradient-to-r from-cyber-cyan to-cyber-blue text-background font-semibold shadow-[0_0_30px_oklch(0.78_0.18_220_/_0.45)]">
                 Open Command Center
               </Link>
               <Link to="/trust-engine" className="px-5 py-3 rounded-md border border-border/60 hover:border-cyber-cyan/60 hover:text-cyber-cyan transition font-medium">

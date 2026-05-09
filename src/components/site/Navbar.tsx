@@ -7,7 +7,7 @@ import { auth } from "@/firebase";
 import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
 
 const navLinks = [
-  { to: "/threat-intelligence", label: "Threat Intelligence" },
+  { to: "/zero-trust", label: "Zero Trust Center" },
   { to: "/url-protection", label: "URL Protection" },
   { to: "/scam-detection", label: "Scam Detection" },
   { to: "/deepfake-defense", label: "Deepfake Defense" },
@@ -89,7 +89,7 @@ export function Navbar() {
 
               {menuOpen && (
                 <div className="absolute right-0 mt-2 w-44 rounded-lg border border-border/40 bg-background p-2 shadow-lg">
-                  <Link to="/threat-intelligence" className="block px-3 py-2 text-sm text-muted-foreground hover:bg-background/50 rounded">Dashboard</Link>
+                  <Link to="/zero-trust" className="block px-3 py-2 text-sm text-muted-foreground hover:bg-background/50 rounded">Dashboard</Link>
                   <button onClick={handleSignOut} className="w-full text-left px-3 py-2 text-sm text-muted-foreground hover:bg-background/50 rounded">Sign Out</button>
                 </div>
               )}
@@ -100,7 +100,7 @@ export function Navbar() {
               <Link to="/sign-up" className="text-[13px] font-medium text-muted-foreground hover:text-foreground px-3 py-2">Sign Up</Link>
             </>
           )}
-          <Link to="/threat-intelligence" className="text-[13px] font-medium px-3 py-2 rounded-md border border-border/60 hover:border-cyber-cyan/50 hover:text-cyber-cyan transition">
+          <Link to="/zero-trust" className="text-[13px] font-medium px-3 py-2 rounded-md border border-border/60 hover:border-cyber-cyan/50 hover:text-cyber-cyan transition">
             Dashboard
           </Link>
           <Link

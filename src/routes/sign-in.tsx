@@ -66,7 +66,7 @@ function SignInPage() {
 
       // authenticated and verified — redirect to dashboard
       toast.success("Signed in.");
-      window.location.href = "/threat-intelligence";
+      window.location.href = "/zero-trust";
     } catch (err: any) {
       console.error(err);
       toast.error(getAuthErrorMessage(err?.code));
