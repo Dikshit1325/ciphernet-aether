@@ -4,11 +4,13 @@ from app.routes.media_routes import router as media_router
 from app.routes.url_routes import router as url_router
 from app.routes.zero_trust_routes import router as zero_trust_router
 from app.routes.telemetry_routes import router as telemetry_router
+from app.routes.sms_routes import router as sms_router
 
 app = FastAPI()
 app.include_router(url_router)
 app.include_router(zero_trust_router)
 app.include_router(telemetry_router, prefix="/api/telemetry")
+app.include_router(sms_router)
 # CORS
 app.add_middleware(
     CORSMiddleware,
