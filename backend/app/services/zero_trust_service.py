@@ -48,6 +48,20 @@ def evaluate_access_request(request: AccessRequest) -> AccessResponse:
         if "Force MFA" not in recommendations:
             recommendations.append("Force MFA configuration")
             
+    # 6. Telemetry Anomaly Integration
+    if request.telemetry_anomaly_score > 0:
+        if request.telemetry_anomaly_score >= 70:
+            risk_score += 60
+            reasons.append(f"Critical browser telemetry anomaly detected (Score: {request.telemetry_anomaly_score})")
+            recommendations.append("Isolate network access immediately")
+        elif request.telemetry_anomaly_score >= 40:
+            risk_score += 30
+            reasons.append(f"Elevated browser behavioral anomaly (Score: {request.telemetry_anomaly_score})")
+            recommendations.append("Require step-up authentication")
+        else:
+            risk_score += 10
+            reasons.append(f"Minor telemetry deviation observed (Score: {request.telemetry_anomaly_score})")
+
     # Cap risk score
     risk_score = min(risk_score, 100)
     

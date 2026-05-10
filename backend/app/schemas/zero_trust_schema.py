@@ -11,6 +11,7 @@ class AccessRequest(BaseModel):
     vpn_enabled: bool
     admin_request: bool
     mfa_enabled: bool
+    telemetry_anomaly_score: int = 0
 
 class AccessResponse(BaseModel):
     risk_score: int

@@ -95,6 +95,8 @@ export interface URLAnalysisResponse {
   threatLevel: string;
   phishingRisk: number;
   manipulationScore: number;
+  anomalyScore?: number;
+  domainEntropy?: number;
   riskFactors: string[];
   aiExplanation: string;
   category: ThreatCategory;

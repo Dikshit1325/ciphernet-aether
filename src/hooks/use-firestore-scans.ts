@@ -35,7 +35,7 @@ export function useBrowserScans(limitResults: number = 50) {
     try {
       // Create query for recent scans, ordered by scannedAt descending
       const q = query(
-        collection(db, "browser_scans"),
+        collection(db, "browser_telemetry"),
         orderBy("scannedAt", "desc"),
         limit(limitResults)
       );
@@ -58,8 +58,10 @@ export function useBrowserScans(limitResults: number = 50) {
               threatLevel: data.threatLevel || data.threat || "SAFE",
               phishingRisk: data.phishingRisk ?? 0,
               manipulationScore: data.manipulationScore ?? data.manipulationRisk ?? 0,
+              anomalyScore: data.anomalyScore ?? 0,
+              domainEntropy: data.domainEntropy ?? 0,
               riskFactors: data.riskFactors || [],
-              aiExplanation: data.aiExplanation || "Analyzed by CipherNet AI",
+              aiExplanation: data.aiReasoning || data.aiExplanation || "Analyzed by CipherNet AI",
               scannedAt: data.scannedAt || data.timestamp || null,
               userId: data.userId || null,
             });

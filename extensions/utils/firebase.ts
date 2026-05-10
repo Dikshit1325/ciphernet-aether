@@ -57,10 +57,10 @@ export async function saveBrowserScanToFirestore(scanData: any) {
       if (!_db) throw new Error('Firestore not initialized');
     }
 
-    const col = collection(_db!, 'browser_scans');
+    const col = collection(_db!, 'browser_telemetry');
     const payload = {
       ...scanData,
-      scannedAt: serverTimestamp(),
+      scannedAt: scanData.timestamp ? scanData.timestamp : serverTimestamp(),
     };
 
     const docRef = await addDoc(col, payload);

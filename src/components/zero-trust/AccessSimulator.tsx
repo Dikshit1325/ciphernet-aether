@@ -16,6 +16,7 @@ export interface AccessRequestData {
   vpn_enabled: boolean;
   admin_request: boolean;
   mfa_enabled: boolean;
+  telemetry_anomaly_score: number;
 }
 
 export function AccessSimulator({ onSimulate, loading }: { onSimulate: (data: AccessRequestData) => void, loading: boolean }) {
@@ -29,9 +30,10 @@ export function AccessSimulator({ onSimulate, loading }: { onSimulate: (data: Ac
     vpn_enabled: true,
     admin_request: false,
     mfa_enabled: true,
+    telemetry_anomaly_score: 0,
   });
 
-  const handleChange = (field: keyof AccessRequestData, value: string | boolean) => {
+  const handleChange = (field: keyof AccessRequestData, value: string | boolean | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -87,6 +89,32 @@ export function AccessSimulator({ onSimulate, loading }: { onSimulate: (data: Ac
         <div className="space-y-2">
           <Label>IP Address</Label>
           <Input value={formData.ip_address} onChange={(e) => handleChange("ip_address", e.target.value)} className="bg-background/50" />
+        </div>
+      </div>
+
+      <div className="mt-6 space-y-3">
+        <div className="flex items-center justify-between">
+          <Label>Browser Telemetry Anomaly Score</Label>
+          <span className={`font-mono text-xs font-semibold px-2 py-0.5 rounded ${
+            formData.telemetry_anomaly_score >= 70 ? "bg-cyber-red/20 text-cyber-red" : 
+            formData.telemetry_anomaly_score >= 40 ? "bg-cyber-purple/20 text-cyber-purple" : 
+            "bg-cyber-cyan/20 text-cyber-cyan"
+          }`}>
+            {formData.telemetry_anomaly_score}
+          </span>
+        </div>
+        <input 
+          type="range" 
+          min="0" 
+          max="100" 
+          value={formData.telemetry_anomaly_score} 
+          onChange={(e) => handleChange("telemetry_anomaly_score", parseInt(e.target.value))}
+          className="w-full accent-cyber-cyan"
+        />
+        <div className="flex justify-between text-[10px] text-muted-foreground uppercase tracking-widest">
+          <span>Safe (0)</span>
+          <span>Suspicious (50)</span>
+          <span>Critical (100)</span>
         </div>
       </div>
 

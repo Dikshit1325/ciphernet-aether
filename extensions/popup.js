@@ -50,22 +50,27 @@ async function performScan() {
     showLoadingState();
 
     // Analyze URL using analyzer.js
-    const analysis = analyzeURL(currentUrl);
+    const analysis = await analyzeURL(currentUrl);
     currentAnalysis = analysis;
 
-    // Prepare data for Firestore
+    // Prepare data for Firestore telemetry
     const scanData = {
       url: currentUrl,
       hostname: getHostname(currentUrl),
       browserTitle: pageTitle,
       favicon: getFaviconUrl(currentUrl),
       trustScore: analysis.trustScore,
-      threatLevel: analysis.threatLevel,
       phishingRisk: analysis.phishingRisk,
       manipulationScore: analysis.manipulationScore,
+      anomalyScore: analysis.anomalyScore,
+      threatLevel: analysis.threatLevel,
       riskFactors: analysis.riskFactors,
-      aiExplanation: analysis.aiExplanation,
-      scannedAt: new Date().toISOString(),
+      timestamp: Date.now(),
+      redirectDepth: analysis.redirectDepth,
+      domainEntropy: analysis.domainEntropy,
+      suspiciousKeywords: analysis.suspiciousKeywords,
+      browsingPattern: analysis.browsingPattern,
+      aiReasoning: analysis.aiReasoning || analysis.aiExplanation // fallback for older UI
     };
 
     // Save to Firestore via extension helper
@@ -157,7 +162,7 @@ function displayAnalysisResults(analysis, scanData) {
   });
 
   // Update AI explanation
-  document.getElementById("aiExplanation").textContent = analysis.aiExplanation;
+  document.getElementById("aiExplanation").textContent = analysis.aiReasoning;
 }
 
 /**
